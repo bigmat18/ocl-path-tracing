@@ -32,3 +32,9 @@ result
 *.userosscache
 *.VC.db
 *.VC.VC.opendb
+
+# Rendered output
+*.ppm
+*.png
+*.jpg
+*.jpeg

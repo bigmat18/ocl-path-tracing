@@ -16,9 +16,6 @@ list(APPEND CMAKE_PREFIX_PATH
     ${EXTERNAL_DIR}/opencl
 )
 
-find_package(PkgConfig REQUIRED)
-pkg_check_modules(STB REQUIRED IMPORTED_TARGET stb)
-
 find_package(cpp-core-utils CONFIG REQUIRED)
 find_package(etu-opengl CONFIG REQUIRED)
 find_package(OpenCL REQUIRED)

@@ -46,6 +46,7 @@
           };
           coreUtils = cpp-core-utils.packages.${system}.default;
           etuOpengl = etu-opengl.packages.${system}.default;
+
           openclInterceptLayer = pkgs.stdenv.mkDerivation {
             pname = "opencl-intercept-layer";
             version = "3.0.6";
@@ -55,10 +56,31 @@
               ninja
             ];
           };
-          ocl-path-tracing = pkgs.callPackage ./package.nix {
-            cpp-core-utils = coreUtils;
-            etu-opengl = etuOpengl;
-            opencl-intercept-layer = openclInterceptLayer;
+
+          ocl-path-tracing = pkgs.stdenv.mkDerivation {
+            pname = "ocl-path-tracing";
+            version = "0.1.0";
+
+            src = pkgs.lib.cleanSourceWith {
+              src = ./.;
+              filter = path: type:
+                let base = baseNameOf (toString path);
+                in !(base == "build" || base == ".cache" || base == "test_build" || base == "external" || base == "result");
+            };
+
+            nativeBuildInputs = with pkgs; [
+              cmake
+              ninja
+              pkg-config
+            ];
+
+            buildInputs = [
+              coreUtils
+              etuOpengl
+              pkgs.ocl-icd
+              pkgs.opencl-headers
+              pkgs.opencl-clhpp
+            ];
           };
         in
         {
@@ -78,37 +100,29 @@
               clang-tools
               pkg-config
               clinfo
+              feh
               openclInterceptLayer
             ];
 
-            buildInputs = with pkgs; [
+            buildInputs = [
               coreUtils
               etuOpengl
-              openclInterceptLayer
-              ocl-icd
-              opencl-headers
-              opencl-clhpp
-              glfw
-              libGL
-              glm
-              tinyobjloader
-              stb
-              nlohmann_json
+              pkgs.ocl-icd
+              pkgs.opencl-headers
+              pkgs.opencl-clhpp
             ];
 
             shellHook = ''
               mkdir -p external
               ln -sfn "${coreUtils}" external/cpp-core-utils
               ln -sfn "${etuOpengl}" external/etu-opengl
-              ln -sfn "${openclInterceptLayer}" external/opencl-intercept-layer
               ln -sfn "${pkgs.ocl-icd}" external/opencl
               ln -sfn "${pkgs.opencl-headers}" external/opencl-headers
               ln -sfn "${pkgs.opencl-clhpp}" external/opencl-clhpp
+              ln -sfn "${openclInterceptLayer}" external/opencl-intercept-layer
               export CLI_OpenCLFileName="${pkgs.ocl-icd}/lib/libOpenCL.so.1"
-              echo "ocl-path-tracing env ready (external/ symlinks populated)"
-              if [[ $- == *i* ]]; then
-                exec zsh
-              fi
+              echo "ocl-path-tracing env ready"
+              exec zsh
             '';
           };
         }

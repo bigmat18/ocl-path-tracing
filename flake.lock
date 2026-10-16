@@ -36,11 +36,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1792109896,
-        "narHash": "sha256-4sTKs8RtRUTofavlH+1TY0J/5QD3DOugYYqQ6tvNM0k=",
+        "lastModified": 1792152031,
+        "narHash": "sha256-oUpnPCLJYp4a8sylVYlF1I9iIPuZVgQjzxGKzJBHPo4=",
         "owner": "bigmat18",
         "repo": "etu-opengl",
-        "rev": "b459b54154d1cd0b2576ca14ab82eb2779690e75",
+        "rev": "a7f310b1e1142f9e58a00a12809a7a4e8ce3b4d4",
         "type": "github"
       },
       "original": {
