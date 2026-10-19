@@ -58,6 +58,13 @@ target_link_libraries(${PROJECT_NAME} PRIVATE
     OpenCL::OpenCL
 )
 
+get_filename_component(OPENCL_REAL_LIB_DIR "${EXTERNAL_DIR}/opencl/lib" REALPATH)
+
+set_target_properties(${PROJECT_NAME} PROPERTIES
+    BUILD_RPATH "${OPENCL_REAL_LIB_DIR};${EXTERNAL_DIR}/opencl/lib;\$ORIGIN/../external/opencl/lib"
+    INSTALL_RPATH "${OPENCL_REAL_LIB_DIR};${EXTERNAL_DIR}/opencl/lib;\$ORIGIN/../external/opencl/lib"
+)
+
 if(CLILOADER_EXECUTABLE)
     message(STATUS "Found cliloader: ${CLILOADER_EXECUTABLE}")
     add_custom_target(run-intercept

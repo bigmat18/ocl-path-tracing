@@ -121,6 +121,7 @@
               ln -sfn "${pkgs.opencl-clhpp}" external/opencl-clhpp
               ln -sfn "${openclInterceptLayer}" external/opencl-intercept-layer
               export CLI_OpenCLFileName="${pkgs.ocl-icd}/lib/libOpenCL.so.1"
+              export LD_LIBRARY_PATH="${pkgs.ocl-icd}/lib:''${LD_LIBRARY_PATH:-}"
               echo "ocl-path-tracing env ready"
               exec zsh
             '';
