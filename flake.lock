@@ -10,11 +10,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1791633893,
-        "narHash": "sha256-hz+WwzF6ybqx8LA79N9hztGCDlfiMkkyRpl2HwId2sU=",
+        "lastModified": 1792682008,
+        "narHash": "sha256-WPUzTNGLL78NpEWay8CJX036goqJuGTgUorLFeAxdMU=",
         "owner": "bigmat18",
         "repo": "cpp-core-utils",
-        "rev": "16ae26e6617eeb80056d706827e2693e662d9ba8",
+        "rev": "10d8703a736ba7cde41f55103d34674790de1bd6",
         "type": "github"
       },
       "original": {
@@ -36,11 +36,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1792152031,
-        "narHash": "sha256-oUpnPCLJYp4a8sylVYlF1I9iIPuZVgQjzxGKzJBHPo4=",
+        "lastModified": 1792682252,
+        "narHash": "sha256-bIGIyOntkMyBmq8jQHtM1UbiyC4Xx4/4P9AnaRec+yQ=",
         "owner": "bigmat18",
         "repo": "etu-opengl",
-        "rev": "a7f310b1e1142f9e58a00a12809a7a4e8ce3b4d4",
+        "rev": "f33994b59187c731253732f3737f7e98d9ee8663",
         "type": "github"
       },
       "original": {

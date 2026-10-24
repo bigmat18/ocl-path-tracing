@@ -2,6 +2,7 @@
 
 #include <array>
 #include <cstddef>
+#include <random>
 #include <type_traits>
 #include <utility>
 #include <core/massert.hpp>
@@ -169,6 +170,27 @@ public:
 
     friend constexpr bool operator==(const Tensor<T, Ds...>& a, const Tensor<T, Ds...>& b) noexcept {
         return a.m_Data == b.m_Data;
+    }
+
+    static constexpr Tensor<T, Ds...> random(T min = static_cast<T>(0), T max = static_cast<T>(1)) {
+        Tensor<T, Ds...> tensor;
+
+        std::random_device rd;
+        std::mt19937 gen(rd());
+
+        if constexpr (std::is_floating_point_v<T>) {
+            std::uniform_real_distribution<T> dist(min, max);
+            for (auto& val : tensor.m_Data) {
+                val = dist(gen);
+            }
+        } else {
+            std::uniform_int_distribution<T> dist(min, max);
+            for (auto& val : tensor.m_Data) {
+                val = dist(gen);
+            }
+        }
+
+        return tensor;
     }
 };
 

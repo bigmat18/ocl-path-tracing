@@ -56,40 +56,8 @@
               ninja
             ];
           };
-
-          ocl-path-tracing = pkgs.stdenv.mkDerivation {
-            pname = "ocl-path-tracing";
-            version = "0.1.0";
-
-            src = pkgs.lib.cleanSourceWith {
-              src = ./.;
-              filter = path: type:
-                let base = baseNameOf (toString path);
-                in !(base == "build" || base == ".cache" || base == "test_build" || base == "external" || base == "result");
-            };
-
-            nativeBuildInputs = with pkgs; [
-              cmake
-              ninja
-              pkg-config
-            ];
-
-            buildInputs = [
-              coreUtils
-              etuOpengl
-              pkgs.ocl-icd
-              pkgs.opencl-headers
-              pkgs.opencl-clhpp
-            ];
-          };
         in
         {
-          packages = {
-            default = ocl-path-tracing;
-            ocl-path-tracing = ocl-path-tracing;
-            opencl-intercept-layer = openclInterceptLayer;
-          };
-
           devShells.default = pkgs.mkShell rec {
             name = "ocl-path-tracing";
 
