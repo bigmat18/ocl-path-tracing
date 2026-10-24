@@ -17,7 +17,7 @@ inline bmath::Vec3d random_unit_vector() {
     while(true) {
         bmath::Vec3d p = bmath::Vec3d::random(-1,1);
         auto lensq = p.length_squared();
-        if (1e-160 < lensq && lensq <= 1)
+        if (1e-160 < lensq && lensq <= 1) // this value to fix floating-point leak
             return p / sqrt(lensq);
     }
 }

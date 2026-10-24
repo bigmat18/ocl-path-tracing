@@ -1,30 +1,21 @@
 #pragma once
 
+#include <memory>
+
 #include "math/vector.hpp"
+#include "common.hpp"
+#include "hittable.hpp"
 
-struct Ray {
-    bmath::Vec3d origin;
-    bmath::Vec3d direction;
-
-    bmath::Vec3d at(double t) const { return origin + t * direction; }
-};
-
-struct HitRecord {
-    bmath::Vec3d point;  // impact point
-    bmath::Vec3d normal; // normal on impact point
-    double distance;     // distance between camera and impact
-    bool front_face;     // if true the normal is positive
-};
-
-class Sphere {
+class Sphere : public Hittable {
     bmath::Vec3d center;
     double radius;
+    std::shared_ptr<Material> material;
 
 public:
-    Sphere(const bmath::Vec3d& center, double radius)
-        : center(center), radius(radius) {}
+    Sphere(const bmath::Vec3d& center, double radius, std::shared_ptr<Material> material = nullptr)
+        : center(center), radius(radius), material(std::move(material)) {}
 
-    bool hit(const Ray& ray, std::pair<double, double> limit, HitRecord& record) const {
+    bool hit(const Ray& ray, std::pair<double, double> limit, HitRecord& record) const override {
         bmath::Vec3d oc = center - ray.origin;
         auto a = bmath::dot(ray.direction, ray.direction);
         auto h = dot(ray.direction, oc);
@@ -46,9 +37,10 @@ public:
         record.point = ray.at(record.distance);
 
         bmath::Vec3d outward_normal = (record.point - center) / radius;
-        record.front_face = bmath::dot(ray.direction, outward_normal);
+        record.front_face = bmath::dot(ray.direction, outward_normal) < 0.0;
         record.normal = record.front_face ? outward_normal : -outward_normal;
+        record.material = material;
 
-        return true;
+       return true;
     }
 };

@@ -102,6 +102,11 @@ public:
 // =========================================================================
 
 template<typename T, std::size_t N>
+constexpr bool near_zero(const Vector<T, N>& v) noexcept {
+    return v.near_zero();
+}
+
+template<typename T, std::size_t N>
 constexpr T dot(const Vector<T, N>& a, const Vector<T, N>& b) {
     T sum = static_cast<T>(0);
     for (std::size_t i = 0; i < N; ++i) {

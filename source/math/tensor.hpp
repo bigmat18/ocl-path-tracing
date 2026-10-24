@@ -1,6 +1,7 @@
 #pragma once 
 
 #include <array>
+#include <cmath>
 #include <cstddef>
 #include <random>
 #include <type_traits>
@@ -191,6 +192,15 @@ public:
         }
 
         return tensor;
+    }
+
+    constexpr bool near_zero() const {
+        bool result = true;
+        auto s = 1e-8;
+        for (const auto el : m_Data) {
+            result = result && (std::fabs(el) < s);
+        }
+        return result;
     }
 };
 

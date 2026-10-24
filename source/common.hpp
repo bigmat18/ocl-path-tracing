@@ -1,13 +1,9 @@
 #pragma once
 
 #include <iostream>
-#include <limits>
-#include <vector>
 
 #include "math/vector.hpp"
-
 #include "random.h"
-#include "sphere.hpp"
 
 constexpr double focal_length = 2.0;
 constexpr double aspect_ratio = 16.0 / 9.0;
@@ -33,6 +29,14 @@ constexpr auto samples_per_pixel = 10;
 constexpr double pixel_samples_scale = 1.0 / samples_per_pixel;
 
 constexpr int max_depth = 10;
+
+struct Ray {
+    bmath::Vec3d origin;
+    bmath::Vec3d direction;
+
+    bmath::Vec3d at(double t) const { return origin + t * direction; }
+};
+
 
 inline double linear_to_gamma(double linear_component)
 {
@@ -68,31 +72,4 @@ Ray get_ray(int i, int j) {
                         ((i + offset.x()) * pixel_delta_u) +
                         ((j + offset.y()) * pixel_delta_v);
     return {camera_center, pixel_sample - camera_center};
-}
-
-bmath::Vec3d ray_color(const Ray& r, const std::vector<Sphere>& world, int depth = max_depth) {
-    if (depth <= 0)
-        return {0, 0, 0};
-
-    HitRecord record;
-    HitRecord closest_rec;
-    bool hit_anything = false;
-    double closest_so_far = std::numeric_limits<double>::infinity();
-
-    for (const auto& obj : world) {
-        if (obj.hit(r, {0.001, closest_so_far}, record)) {
-            hit_anything = true;
-            closest_so_far = record.distance;
-            closest_rec = record;
-        }
-    }
-
-    if (hit_anything) {
-        bmath::Vec3d direction = closest_rec.normal + random_on_hemisphere(closest_rec.normal);
-        return 0.5 * ray_color(Ray{closest_rec.point, direction}, world, depth - 1);
-    }
-
-    bmath::Vec3d unit_direction = r.direction.normalized();
-    auto a = 0.5 * (unit_direction.y() + 1.0);
-    return (1.0 - a) * bmath::Vec3d(1.0, 1.0, 1.0) + a * bmath::Vec3d(0.5, 0.7, 1.0);
 }
