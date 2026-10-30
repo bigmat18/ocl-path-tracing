@@ -95,6 +95,10 @@ public:
         *this *= inv_len;
         return *this;
     }
+
+    constexpr Vector operator-() const {
+        return Vector(Matrix<T, N, 1>::operator-());
+    }
 };
 
 // =========================================================================
@@ -149,11 +153,6 @@ template<typename T, std::size_t N>
 constexpr auto distance(const Vector<T, N>& a, const Vector<T, N>& b) {
     const Vector<T, N> diff = a - b;
     return diff.length();
-}
-
-template<typename T, std::size_t N>
-constexpr Vector<T, N> reflect(const Vector<T, N>& v, const Vector<T, N>& n) {
-    return Vector<T, N>(v - n * (static_cast<T>(2) * dot(v, n)));
 }
 
 template<typename T, std::size_t R, std::size_t N>

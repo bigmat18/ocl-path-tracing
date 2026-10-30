@@ -136,6 +136,10 @@ public:
         return *this;
     }
 
+    constexpr Matrix operator-() const {
+        return Matrix(Tensor<T, N, M>::operator-());
+    }
+
     // ===== Transpose =====
 
     constexpr Matrix<T, M, N> transpose() const noexcept {

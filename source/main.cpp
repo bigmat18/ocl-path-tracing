@@ -39,13 +39,15 @@ bmath::Vec3d ray_color(const Ray& r, const std::vector<std::shared_ptr<Hittable>
 int main() {
     std::cout << "P3\n" << image_width << ' ' << image_height << "\n255\n";
 
-    auto material_ground = std::make_shared<Labertian>(bmath::Vec3d(0.8, 0.8, 0.0));
-    auto material_left   = std::make_shared<Labertian>(bmath::Vec3d(0.1, 0.2, 0.5));
-    auto material_right  = std::make_shared<Metal>(bmath::Vec3d(0.8, 0.6, 0.2), 0.0);
+    auto material_ground = std::make_shared<Lambertian>(bmath::Vec3d(0.8, 0.8, 0.0));
+    auto material_center = std::make_shared<Lambertian>(bmath::Vec3d(0.1, 0.2, 0.5));
+    auto material_left   = std::make_shared<Dieletric>(1.0 / 1.33);
+    auto material_right  = std::make_shared<Metal>(bmath::Vec3d(0.8, 0.6, 0.2), 1.0);
 
     std::vector<std::shared_ptr<Hittable>> world = {
-        std::make_shared<Sphere>(bmath::Vec3d(-0.6,    0.0, -1.0),   0.5, material_left),
-        std::make_shared<Sphere>(bmath::Vec3d( 0.6,    0.0, -1.0),   0.5, material_right),
+        std::make_shared<Sphere>(bmath::Vec3d(-1.0,    0.0, -1.0),   0.5, material_left),
+        std::make_shared<Sphere>(bmath::Vec3d( 1.0,    0.0, -1.0),   0.5, material_right),
+        std::make_shared<Sphere>(bmath::Vec3d( 0.0,    0.0, -1.2),   0.5, material_center),
         std::make_shared<Sphere>(bmath::Vec3d( 0.0, -100.5, -1.0), 100.0, material_ground)
     };
 
